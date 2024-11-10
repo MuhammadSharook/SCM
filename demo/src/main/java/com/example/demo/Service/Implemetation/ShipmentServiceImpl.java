@@ -10,6 +10,7 @@ import com.example.demo.Model.Route;
 import com.example.demo.Model.Shipment;
 import com.example.demo.Repository.ShipmentRepository;
 import com.example.demo.Service.*;
+import com.example.demo.Transformer.CarrierTransformer;
 import com.example.demo.Transformer.ShipmentTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -148,7 +149,7 @@ public class ShipmentServiceImpl implements ShipmentService {
 
         double distance = locationService.calculateDistance(shipment.getOrigin(), shipment.getDestination());
 
-        double ratePerMile = carrierService.getCarrierRate(shipment.getCarrier().get(0));
+        double ratePerMile = carrierService.getCarrierRate(CarrierTransformer.fromCarrierTOCarrierResponse(shipment.getCarrier().get(0)));
 
         double baseCost = distance * ratePerMile;
 

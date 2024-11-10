@@ -2,6 +2,7 @@ package com.example.demo.Model;
 
 import com.example.demo.Enum.CarrierStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -20,9 +21,13 @@ public class Carrier {
 
     String carrierName;
 
+    @Column(unique = true)
+    @Size(min = 10, max = 10)
     String mobileNO;
 
     double rate;
+
+    int carrierNo;
 
     @Enumerated(value = EnumType.STRING)
     CarrierStatus carrierStatus;

@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface CarrierRepository extends JpaRepository<Carrier,Integer> {
     List<Carrier> findAllByCarrierStatus(CarrierStatus carrierStatus);
+
+    Carrier findByCarrierNo(int carrierNo);
 }
