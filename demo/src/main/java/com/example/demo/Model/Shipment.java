@@ -62,7 +62,7 @@ public class Shipment {
 
     double height;
 
-    String trackingID;
+    int trackingID;
 
     @OneToMany(mappedBy = "shipment", cascade = CascadeType.ALL)
     List<Route> route;

@@ -22,7 +22,7 @@ public class ShipmentResponse {
     @Enumerated(value = EnumType.STRING)
     ShipmentStatus shipmentStatus;
 
-    String trackingID;
+    int trackingID;
 
 
 

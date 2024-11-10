@@ -23,4 +23,6 @@ public class ShipmentRequest {
     Date deliveryWindowStart;
 
     Date deliveryWindowEnd;
+
+    int trackingID;
 }

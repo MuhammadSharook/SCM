@@ -4,6 +4,7 @@ import com.example.demo.DTO.Request.ShipmentRequest;
 import com.example.demo.DTO.Response.ShipmentResponse;
 import com.example.demo.Enum.CarrierStatus;
 import com.example.demo.Exception.CarrierUnavailableException;
+import com.example.demo.Exception.ShipmentNotFoundException;
 import com.example.demo.Model.Carrier;
 import com.example.demo.Model.Route;
 import com.example.demo.Model.Shipment;
@@ -11,6 +12,7 @@ import com.example.demo.Repository.ShipmentRepository;
 import com.example.demo.Service.*;
 import com.example.demo.Transformer.ShipmentTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -51,7 +53,7 @@ public class ShipmentServiceImpl implements ShipmentService {
         shipment.setCarrier(new ArrayList<>((Collection) carrier));
 
         // 4. Generate a Unique Tracking ID
-        shipment.setTrackingID(generateTrackingId());
+        shipment.setTrackingID(Integer.parseInt(generateTrackingId()));
 
         Route route = routeService.calculateOptimalRoute(shipment);
 
@@ -65,6 +67,58 @@ public class ShipmentServiceImpl implements ShipmentService {
         carrierService.updateCarrierStatus(carrier, CarrierStatus.BUSY);
 
         return ShipmentTransformer.fromShipmentTOShipmentResponse(savedShipment);
+    }
+
+    @Override
+    public List<ShipmentResponse> getAllShipment() {
+        List<ShipmentResponse> shipmentResponses = new ArrayList<>();
+
+        for(Shipment shipment : shipmentRepository.findAll()){
+            shipmentResponses.add(ShipmentTransformer.fromShipmentTOShipmentResponse(shipment));
+        }
+
+        return shipmentResponses;
+    }
+
+    @Override
+    public ShipmentResponse getShipmentId(int shipmentId) {
+        Shipment shipment = shipmentRepository.findById(shipmentId).get();
+
+        if(shipment == null){
+            throw new ShipmentNotFoundException("Invalid Shipment Id.");
+        }
+
+        return ShipmentTransformer.fromShipmentTOShipmentResponse(shipment);
+    }
+
+    @Override
+    public ShipmentResponse updateShipment(ShipmentRequest shipmentRequest) {
+       Optional<Shipment> optionalShipment = shipmentRepository.findById(shipmentRequest.getTrackingID());
+
+       if(!optionalShipment.isPresent()){
+           throw new ShipmentNotFoundException("Shipment not found.");
+       }
+
+       Shipment shipment = optionalShipment.get();
+       shipment.setOrigin(shipmentRequest.getOrigin());
+       shipment.setDestination(shipmentRequest.getDestination());
+       shipment.setVolume(shipmentRequest.getVolume());
+       shipment.setWeight(shipmentRequest.getWeight());
+       shipment.setDeliveryWindowStart(shipmentRequest.getDeliveryWindowStart());
+       shipment.setDeliveryWindowEnd(shipmentRequest.getDeliveryWindowEnd());
+
+       Shipment savedShipment = shipmentRepository.save(shipment);
+
+       return ShipmentTransformer.fromShipmentTOShipmentResponse(savedShipment);
+    }
+
+    @Override
+    public String deleteShipment(int trackingId) {
+        Shipment shipment = shipmentRepository.findById(trackingId).get();
+
+        shipmentRepository.delete(shipment);
+
+        return "Successfully deleted.";
     }
 
     private String generateTrackingId() {
