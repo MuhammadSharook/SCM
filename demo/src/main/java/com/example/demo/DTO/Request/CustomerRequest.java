@@ -2,7 +2,6 @@ package com.example.demo.DTO.Request;
 
 import com.example.demo.Enum.Gender;
 import com.example.demo.Enum.Role;
-import jakarta.persistence.Entity;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

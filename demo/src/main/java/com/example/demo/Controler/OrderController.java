@@ -24,40 +24,36 @@ public class OrderController {
     }
 
     @PostMapping("/create-order/{mobile}")
-    public ResponseEntity createOrder(@PathVariable("mobile") String mobileNO){
+    public ResponseEntity createOrder(@PathVariable("mobile") String mobileNO) {
 
         try {
             OrderEntityResponse orderEntityResponse = orderService.createOrder(mobileNO);
             return new ResponseEntity(orderEntityResponse, HttpStatus.CREATED);
-        }
-        catch (Exception e)
-        {
-            return  new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/history/{mobileNO}")
-    public ResponseEntity getOrderHistory(@PathVariable("mobileNO")String mobileNO){
+    public ResponseEntity getOrderHistory(@PathVariable("mobileNO") String mobileNO) {
 
         try {
             List<OrderEntity> orders = orderService.getOrderHistory(mobileNO);
-            return new ResponseEntity(orders,HttpStatus.FOUND);
-        }
-        catch (Exception e){
-            return new ResponseEntity(e.getMessage(),HttpStatus.NOT_FOUND);
+            return new ResponseEntity(orders, HttpStatus.FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
         }
 
     }
 
     @PutMapping("/change-order-status/{orderID}")
-    public ResponseEntity updateOrderStatus(@PathVariable("oderId") int orderID, @RequestBody OrderStatus status){
+    public ResponseEntity updateOrderStatus(@PathVariable("oderId") int orderID, @RequestBody OrderStatus status) {
 
         try {
-            OrderEntityResponse orderEntityResponse = orderService.updateOrderStatus(orderID,status);
-            return new ResponseEntity(orderEntityResponse,HttpStatus.ACCEPTED);
-        }
-        catch (Exception e){
-            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
+            OrderEntityResponse orderEntityResponse = orderService.updateOrderStatus(orderID, status);
+            return new ResponseEntity(orderEntityResponse, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }

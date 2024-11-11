@@ -10,11 +10,10 @@ import java.util.List;
 
 public class CartTransformer {
 
-    public static CartResponse fromCartTOCartResponse(Cart cart)
-    {
+    public static CartResponse fromCartTOCartResponse(Cart cart) {
         List<ProductItemResponse> productItemResponseList = new ArrayList<>();
 
-        for(ProductItem productItem : cart.getProductItems()){
+        for (ProductItem productItem : cart.getProductItems()) {
             productItemResponseList.add(ProductItemTransformer.fromProductItemTOProductItemResponse(productItem));
         }
 

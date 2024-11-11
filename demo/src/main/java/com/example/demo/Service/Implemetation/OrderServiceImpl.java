@@ -36,13 +36,12 @@ public class OrderServiceImpl implements OrderService {
     public OrderEntityResponse createOrder(String mobileNO) {
         Customer customer = customerRepository.findByMobileNO(mobileNO);
 
-        if(customer == null)
-        {
+        if (customer == null) {
             throw new CustomerNotFoundException("Invalid Mobile Number!!!!");
         }
 
         Cart cart = customer.getCart();
-        if(cart.getProductItems().size() == 0){
+        if (cart.getProductItems().size() == 0) {
             throw new EmptyCartException("Sorry! Your cart is empty.");
         }
 
@@ -56,7 +55,7 @@ public class OrderServiceImpl implements OrderService {
 
         customer.getOrders().add(savedOrder);
 
-        for(ProductItem productItem : cart.getProductItems()){
+        for (ProductItem productItem : cart.getProductItems()) {
             productItem.setCart(null);
             productItem.setOrder(savedOrder);
         }
@@ -72,12 +71,12 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderEntity> getOrderHistory(String mobileNO) {
         Customer customer = customerRepository.findByMobileNO(mobileNO);
 
-        if(customer == null){
+        if (customer == null) {
             throw new CustomerNotFoundException("Invalid Customer ID!!");
         }
 
         List<OrderEntity> orderList = orderEntityRepository.findByCustomer(customer);
-        if(orderList.isEmpty()){
+        if (orderList.isEmpty()) {
             throw new OrderNotFoundException("You have Zero orders!");
         }
 
@@ -85,9 +84,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderEntityResponse updateOrderStatus(int orderID,OrderStatus status) {
+    public OrderEntityResponse updateOrderStatus(int orderID, OrderStatus status) {
         OrderEntity order = orderEntityRepository.findById(orderID).get();
-        if(order == null){
+        if (order == null) {
             throw new OrderNotFoundException("Invalid order ID!");
         }
 

@@ -8,13 +8,12 @@ import lombok.experimental.FieldDefaults;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductItemResponse {
+public class RouteResponse {
 
-    int requiredQuantity;
+    double totalDistance;
 
-    double price;
+    double cost;
 
-    String productName;
+    double estimatedTime;
 
-    String discription;
 }

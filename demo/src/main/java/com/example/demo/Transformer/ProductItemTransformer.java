@@ -6,8 +6,7 @@ import com.example.demo.Model.ProductItem;
 
 public class ProductItemTransformer {
 
-    public static ProductItemResponse fromProductItemTOProductItemResponse(ProductItem productItem)
-    {
+    public static ProductItemResponse fromProductItemTOProductItemResponse(ProductItem productItem) {
         return ProductItemResponse.builder()
                 .productName(productItem.getProductName())
                 .discription(productItem.getDiscription())
@@ -16,7 +15,7 @@ public class ProductItemTransformer {
                 .build();
     }
 
-    public static ProductItem fromProductRequestTOProductItem(ProductRequest productRequest){
+    public static ProductItem fromProductRequestTOProductItem(ProductRequest productRequest) {
         return ProductItem.builder()
                 .productName(productRequest.getProductName())
                 .discription(productRequest.getDiscription())

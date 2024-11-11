@@ -7,8 +7,7 @@ import com.example.demo.Model.Customer;
 
 public class CustomerTransformer {
 
-    public static Customer fromCustomerRequestTOCustomer (CustomerRequest customerRequest)
-    {
+    public static Customer fromCustomerRequestTOCustomer(CustomerRequest customerRequest) {
         return Customer.builder()
                 .name(customerRequest.getName())
                 .address(customerRequest.getAddress())
@@ -19,7 +18,7 @@ public class CustomerTransformer {
                 .build();
     }
 
-    public static CustomerResponse fromCustomerTOCustomerResponse(Customer customer){
+    public static CustomerResponse fromCustomerTOCustomerResponse(Customer customer) {
         CartResponse cartResponse = CartTransformer.fromCartTOCartResponse(customer.getCart());
 
         return CustomerResponse.builder()

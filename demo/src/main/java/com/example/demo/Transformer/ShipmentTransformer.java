@@ -5,7 +5,7 @@ import com.example.demo.DTO.Response.ShipmentResponse;
 import com.example.demo.Model.Shipment;
 
 public class ShipmentTransformer {
-    public static Shipment fromShipmentRequestTOShipment(ShipmentRequest shipmentRequest){
+    public static Shipment fromShipmentRequestTOShipment(ShipmentRequest shipmentRequest) {
         return Shipment.builder()
                 .origin(shipmentRequest.getOrigin())
                 .destination(shipmentRequest.getDestination())
@@ -16,7 +16,7 @@ public class ShipmentTransformer {
                 .build();
     }
 
-    public static ShipmentResponse fromShipmentTOShipmentResponse(Shipment shipment){
+    public static ShipmentResponse fromShipmentTOShipmentResponse(Shipment shipment) {
         return ShipmentResponse.builder()
                 .origin(shipment.getOrigin())
                 .destination(shipment.getDestination())

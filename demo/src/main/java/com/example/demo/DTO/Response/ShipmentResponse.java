@@ -25,5 +25,4 @@ public class ShipmentResponse {
     int trackingID;
 
 
-
 }

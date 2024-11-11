@@ -1,7 +1,6 @@
 package com.example.demo.DTO.Request;
 
 import com.example.demo.Enum.Category;
-import jakarta.persistence.Entity;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

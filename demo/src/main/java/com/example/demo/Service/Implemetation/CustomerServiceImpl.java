@@ -20,8 +20,10 @@ import org.springframework.stereotype.Service;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
-    private PasswordEncoder passwordEncoder;
     private final CartRepository cartRepository;
+    @Autowired
+    JavaMailSender javaMailSender;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     public CustomerServiceImpl(CustomerRepository customerRepository,
@@ -29,9 +31,6 @@ public class CustomerServiceImpl implements CustomerService {
         this.customerRepository = customerRepository;
         this.cartRepository = cartRepository;
     }
-
-    @Autowired
-    JavaMailSender javaMailSender;
 
     @Override
     public CustomerResponse addCustomer(CustomerRequest customerRequest) {

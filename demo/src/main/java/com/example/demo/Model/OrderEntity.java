@@ -37,7 +37,7 @@ public class OrderEntity {
     @JoinColumn
     Customer customer;
 
-    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     List<ProductItem> productItems = new ArrayList<>();
 
 

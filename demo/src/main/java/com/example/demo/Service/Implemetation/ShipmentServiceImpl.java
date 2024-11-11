@@ -9,11 +9,12 @@ import com.example.demo.Model.Carrier;
 import com.example.demo.Model.Route;
 import com.example.demo.Model.Shipment;
 import com.example.demo.Repository.ShipmentRepository;
-import com.example.demo.Service.*;
+import com.example.demo.Service.CarrierService;
+import com.example.demo.Service.LocationService;
+import com.example.demo.Service.ShipmentService;
 import com.example.demo.Transformer.CarrierTransformer;
 import com.example.demo.Transformer.ShipmentTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -32,8 +33,7 @@ public class ShipmentServiceImpl implements ShipmentService {
     public ShipmentServiceImpl(ShipmentRepository shipmentRepository,
                                CarrierService carrierService,
                                RouteServiceImpl routeService,
-                               LocationService locationService)
-                                {
+                               LocationService locationService) {
         this.shipmentRepository = shipmentRepository;
         this.carrierService = carrierService;
         this.routeService = routeService;
@@ -74,7 +74,7 @@ public class ShipmentServiceImpl implements ShipmentService {
     public List<ShipmentResponse> getAllShipment() {
         List<ShipmentResponse> shipmentResponses = new ArrayList<>();
 
-        for(Shipment shipment : shipmentRepository.findAll()){
+        for (Shipment shipment : shipmentRepository.findAll()) {
             shipmentResponses.add(ShipmentTransformer.fromShipmentTOShipmentResponse(shipment));
         }
 
@@ -85,7 +85,7 @@ public class ShipmentServiceImpl implements ShipmentService {
     public ShipmentResponse getShipmentId(int shipmentId) {
         Shipment shipment = shipmentRepository.findById(shipmentId).get();
 
-        if(shipment == null){
+        if (shipment == null) {
             throw new ShipmentNotFoundException("Invalid Shipment Id.");
         }
 
@@ -94,23 +94,23 @@ public class ShipmentServiceImpl implements ShipmentService {
 
     @Override
     public ShipmentResponse updateShipment(ShipmentRequest shipmentRequest) {
-       Optional<Shipment> optionalShipment = shipmentRepository.findById(shipmentRequest.getTrackingID());
+        Optional<Shipment> optionalShipment = shipmentRepository.findById(shipmentRequest.getTrackingID());
 
-       if(!optionalShipment.isPresent()){
-           throw new ShipmentNotFoundException("Shipment not found.");
-       }
+        if (!optionalShipment.isPresent()) {
+            throw new ShipmentNotFoundException("Shipment not found.");
+        }
 
-       Shipment shipment = optionalShipment.get();
-       shipment.setOrigin(shipmentRequest.getOrigin());
-       shipment.setDestination(shipmentRequest.getDestination());
-       shipment.setVolume(shipmentRequest.getVolume());
-       shipment.setWeight(shipmentRequest.getWeight());
-       shipment.setDeliveryWindowStart(shipmentRequest.getDeliveryWindowStart());
-       shipment.setDeliveryWindowEnd(shipmentRequest.getDeliveryWindowEnd());
+        Shipment shipment = optionalShipment.get();
+        shipment.setOrigin(shipmentRequest.getOrigin());
+        shipment.setDestination(shipmentRequest.getDestination());
+        shipment.setVolume(shipmentRequest.getVolume());
+        shipment.setWeight(shipmentRequest.getWeight());
+        shipment.setDeliveryWindowStart(shipmentRequest.getDeliveryWindowStart());
+        shipment.setDeliveryWindowEnd(shipmentRequest.getDeliveryWindowEnd());
 
-       Shipment savedShipment = shipmentRepository.save(shipment);
+        Shipment savedShipment = shipmentRepository.save(shipment);
 
-       return ShipmentTransformer.fromShipmentTOShipmentResponse(savedShipment);
+        return ShipmentTransformer.fromShipmentTOShipmentResponse(savedShipment);
     }
 
     @Override

@@ -13,18 +13,17 @@ import java.util.UUID;
 
 public class OrderEntityTransformer {
 
-    public static OrderEntity prepareOrderEntity(Cart cart)
-    {
+    public static OrderEntity prepareOrderEntity(Cart cart) {
         return OrderEntity.builder()
                 .orderID(String.valueOf(UUID.randomUUID()))
                 .orderTotal(cart.getCartTotal())
                 .build();
     }
 
-    public static OrderEntityResponse fromOrderEntityTOOrderEntityResponse(OrderEntity savedOrder){
+    public static OrderEntityResponse fromOrderEntityTOOrderEntityResponse(OrderEntity savedOrder) {
 
         List<ProductItemResponse> productItemResponseList = new ArrayList<>();
-        for(ProductItem productItem : savedOrder.getProductItems()){
+        for (ProductItem productItem : savedOrder.getProductItems()) {
             ProductItemResponse productItemResponse = ProductItemResponse.builder()
                     .productName(productItem.getProductName())
                     .price(productItem.getPrice())

@@ -6,7 +6,7 @@ import com.example.demo.Model.Carrier;
 
 public class CarrierTransformer {
 
-    public static Carrier fromCarrierRequestTOCarrier(CarrierRequest carrierRequest){
+    public static Carrier fromCarrierRequestTOCarrier(CarrierRequest carrierRequest) {
         return Carrier.builder()
                 .carrierName(carrierRequest.getCarrierName())
                 .carrierStatus(carrierRequest.getCarrierStatus())
@@ -15,7 +15,7 @@ public class CarrierTransformer {
                 .build();
     }
 
-    public static CarrierResponse fromCarrierTOCarrierResponse(Carrier carrier){
+    public static CarrierResponse fromCarrierTOCarrierResponse(Carrier carrier) {
         return CarrierResponse.builder()
                 .carrierName(carrier.getCarrierName())
                 .carrierStatus(carrier.getCarrierStatus())

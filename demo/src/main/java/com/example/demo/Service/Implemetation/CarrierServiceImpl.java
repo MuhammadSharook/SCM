@@ -5,7 +5,6 @@ import com.example.demo.DTO.Response.CarrierResponse;
 import com.example.demo.Enum.CarrierStatus;
 import com.example.demo.Exception.CarrierUnavailableException;
 import com.example.demo.Model.Carrier;
-import com.example.demo.Model.Shipment;
 import com.example.demo.Repository.CarrierRepository;
 import com.example.demo.Service.CarrierService;
 import com.example.demo.Transformer.CarrierTransformer;
@@ -29,7 +28,7 @@ public class CarrierServiceImpl implements CarrierService {
     public double getCarrierRate(CarrierResponse carrierResponse) {
         Carrier carrier = carrierRepository.findByCarrierNo(carrierResponse.getCarrierNO());
 
-        if(carrier == null){
+        if (carrier == null) {
             throw new CarrierUnavailableException("Carrier unavailable.");
         }
 
@@ -56,7 +55,7 @@ public class CarrierServiceImpl implements CarrierService {
     public List<CarrierResponse> getAllCarriers() {
         List<CarrierResponse> responses = new ArrayList<>();
 
-        for(Carrier carrier : carrierRepository.findAll()){
+        for (Carrier carrier : carrierRepository.findAll()) {
             responses.add(CarrierTransformer.fromCarrierTOCarrierResponse(carrier));
         }
 
@@ -65,9 +64,9 @@ public class CarrierServiceImpl implements CarrierService {
 
     @Override
     public CarrierResponse getCarrierById(int carrierID) {
-        Carrier carrier = carrierRepository.findById(carrierID).orElse( null);
+        Carrier carrier = carrierRepository.findById(carrierID).orElse(null);
 
-        if(carrier == null){
+        if (carrier == null) {
             throw new CarrierUnavailableException("Carrier not found.");
         }
 
@@ -91,7 +90,7 @@ public class CarrierServiceImpl implements CarrierService {
     public CarrierResponse updateCarrier(CarrierRequest carrierRequest) {
         Carrier carrier = carrierRepository.findByCarrierNo(carrierRequest.getCarrierNo());
 
-        if(carrier == null){
+        if (carrier == null) {
             throw new CarrierUnavailableException("Carrier unavailable.");
         }
 
@@ -109,7 +108,7 @@ public class CarrierServiceImpl implements CarrierService {
     public String deleteCarrier(int carrierNo) {
         Carrier carrier = carrierRepository.findByCarrierNo(carrierNo);
 
-        if(carrier == null){
+        if (carrier == null) {
             throw new CarrierUnavailableException("Carrier unavailable.");
         }
 

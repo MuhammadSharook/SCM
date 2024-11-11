@@ -1,6 +1,5 @@
 package com.example.demo.DTO.Response;
 
-import jakarta.persistence.Entity;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

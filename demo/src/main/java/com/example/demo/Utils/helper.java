@@ -1,20 +1,16 @@
 package com.example.demo.Utils;
 
-import com.example.demo.Enum.UrgencyLevel;
 import com.example.demo.Model.Shipment;
-
-import java.time.ZoneOffset;
-import java.util.Date;
 
 public class helper {
 
-    public static double calculateAdditionalFees(Shipment shipment){
+    public static double calculateAdditionalFees(Shipment shipment) {
         double additionalFees = 0;
 
         // 1. Fuel Surcharge
-        if(shipment.isFuelSurchargeEnabled()){
+        if (shipment.isFuelSurchargeEnabled()) {
             double fuelPriceIndex = getFuelPriceIndex();
-            additionalFees += calculateFuelSurcharge(fuelPriceIndex,shipment.getDistance());
+            additionalFees += calculateFuelSurcharge(fuelPriceIndex, shipment.getDistance());
         }
 
         // 2. Handling Fee
@@ -37,7 +33,6 @@ public class helper {
 
         return additionalFees;
     }
-
 
 
     private static double calculateOversizeOverweightFee(double length, double width, double height, double weight) {
@@ -68,7 +63,7 @@ public class helper {
         return fuelPriceIndex * distance * 0.05; // Example
     }
 
-    private static double getFuelPriceIndex(){
+    private static double getFuelPriceIndex() {
 
         return 3.5;
     }

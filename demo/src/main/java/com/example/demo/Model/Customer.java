@@ -46,9 +46,9 @@ public class Customer {
     @Enumerated(value = EnumType.STRING)
     Gender gender;
 
-    @OneToOne(mappedBy = "customer",cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
     Cart cart;
 
-    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     List<OrderEntity> orders = new ArrayList<>();
 }
