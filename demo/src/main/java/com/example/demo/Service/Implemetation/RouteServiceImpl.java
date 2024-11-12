@@ -38,10 +38,10 @@ public class RouteServiceImpl implements RouteService {
         List<Location> allLocations = locationService.getAllLocations();
 
         // 3. Calculate distances between all locations
-        Map<Location, Map<Location,Double>> distanceMatrix = calculateDistanceMatrix(allLocations);
+        Map<Location, Map<Location, Double>> distanceMatrix = calculateDistanceMatrix(allLocations);
 
         // 4. Apply a route optimization algorithm (Dijkstra's algorithm)
-        List<Location> optimalRoute = findShortestPath(originLocation,destinationLocation,distanceMatrix);
+        List<Location> optimalRoute = findShortestPath(originLocation, destinationLocation, distanceMatrix);
 
         // 5. Create a Route object with the optimized route
         Route route = new Route();
@@ -57,31 +57,31 @@ public class RouteServiceImpl implements RouteService {
 
         // Dijkstra's Algorithm implementation:
 
-        Map<Location,Double> distances = new HashMap<>();
-        Map<Location,Location> predecessors = new HashMap<>();
+        Map<Location, Double> distances = new HashMap<>();
+        Map<Location, Location> predecessors = new HashMap<>();
         Set<Location> visited = new HashSet<>();
 
         // Initialize distances and predecessors
-        for(Location location : distanceMatrix.keySet()){
-            distances.put(location,Double.MAX_VALUE);
-            predecessors.put(location,null);
+        for (Location location : distanceMatrix.keySet()) {
+            distances.put(location, Double.MAX_VALUE);
+            predecessors.put(location, null);
         }
 
-        distances.put(originLocation,0.0);
+        distances.put(originLocation, 0.0);
 
         // Iterate until all locations are visited
-        while(visited.size() < distanceMatrix.keySet().size()){
+        while (visited.size() < distanceMatrix.keySet().size()) {
             // Find the location with the smallest distance that hasn't been visited
-            Location current = findClosestUnvisitedLocation(distances,visited);
+            Location current = findClosestUnvisitedLocation(distances, visited);
             visited.add(current);
 
             // Update distances to neighboring locations
-            for(Location neighbor : distanceMatrix.get(current).keySet()){
+            for (Location neighbor : distanceMatrix.get(current).keySet()) {
                 double tentiveDistance = distances.get(current) + distanceMatrix.get(current).get(neighbor);
 
-                if(tentiveDistance < distances.get(neighbor)){
-                    distances.put(neighbor,tentiveDistance);
-                    predecessors.put(neighbor,current);
+                if (tentiveDistance < distances.get(neighbor)) {
+                    distances.put(neighbor, tentiveDistance);
+                    predecessors.put(neighbor, current);
                 }
             }
         }
@@ -90,7 +90,7 @@ public class RouteServiceImpl implements RouteService {
         List<Location> shortestPath = new ArrayList<>();
         Location current = destinationLocation;
 
-        while(current != null){
+        while (current != null) {
             shortestPath.add(current);
             current = predecessors.get(current);
         }
@@ -104,8 +104,8 @@ public class RouteServiceImpl implements RouteService {
         Location closest = null;
 
         double minDistance = Double.MAX_VALUE;
-        for(Location location : distances.keySet()){
-            if(!visited.contains(location) && distances.get(location) <  minDistance){
+        for (Location location : distances.keySet()) {
+            if (!visited.contains(location) && distances.get(location) < minDistance) {
                 closest = location;
                 minDistance = distances.get(location);
             }
@@ -115,18 +115,18 @@ public class RouteServiceImpl implements RouteService {
     }
 
     private Map<Location, Map<Location, Double>> calculateDistanceMatrix(List<Location> allLocations) {
-        Map<Location,Map<Location,Double>> distanceMatrix = new HashMap<>();
+        Map<Location, Map<Location, Double>> distanceMatrix = new HashMap<>();
 
-        for(Location origin : allLocations){
-            Map<Location,Double> distanceFromOrigin = new HashMap<>();
-            for(Location destination : allLocations){
+        for (Location origin : allLocations) {
+            Map<Location, Double> distanceFromOrigin = new HashMap<>();
+            for (Location destination : allLocations) {
                 // Calculate distance using the Haversine formula
-                double distance = calculateDistance(origin,destination);
-                distanceFromOrigin.put(destination,distance);
+                double distance = calculateDistance(origin, destination);
+                distanceFromOrigin.put(destination, distance);
             }
-            distanceMatrix.put(origin,distanceFromOrigin);
+            distanceMatrix.put(origin, distanceFromOrigin);
         }
-        
+
         return distanceMatrix;
 
     }
@@ -146,7 +146,7 @@ public class RouteServiceImpl implements RouteService {
 
         double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
 
-        double c = 2 * Math.atan2(Math.sqrt(a),Math.sqrt(1 - a));
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
         return EARTH_RADIUS * c;
     }

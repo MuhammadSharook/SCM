@@ -23,7 +23,7 @@ public class GeocodeServiceImpl implements GeoCodingService {
 
         GeoCode geoCode = geocodeRepository.findByAddress(address);
 
-        if(geoCode == null){
+        if (geoCode == null) {
             throw new RuntimeException("Invalid address.");
         }
 

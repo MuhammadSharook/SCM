@@ -6,11 +6,11 @@ import com.example.demo.DTO.Response.ProductItemResponse;
 import java.util.List;
 
 public interface InventoryService {
-    ProductItemResponse addProduct(ProductRequest productRequest,int warehouseNo);
+    ProductItemResponse addProduct(ProductRequest productRequest, int warehouseNo);
 
     String removeProduct(int productId);
 
-    ProductItemResponse updateProductQuantity(int productId,int quantity);
+    ProductItemResponse updateProductQuantity(int productId, int quantity);
 
     List<ProductItemResponse> checkReorder();
 }

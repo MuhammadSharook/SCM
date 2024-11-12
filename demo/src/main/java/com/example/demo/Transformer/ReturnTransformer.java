@@ -5,7 +5,7 @@ import com.example.demo.Model.ReturnItems;
 
 public class ReturnTransformer {
 
-    public static ReturnItems fromReturnItemRequestToReturnItem(ReturnItemRequest returnItemRequest){
+    public static ReturnItems fromReturnItemRequestToReturnItem(ReturnItemRequest returnItemRequest) {
         return ReturnItems.builder()
                 .quantity(returnItemRequest.getQuantity())
                 .productId(returnItemRequest.getProductId())

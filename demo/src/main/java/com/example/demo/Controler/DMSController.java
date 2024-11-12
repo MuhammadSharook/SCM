@@ -29,68 +29,67 @@ public class DMSController {
     }
 
     @PostMapping("/add/product")
-    public ResponseEntity addProduct(@RequestBody ProductRequest productRequest, @RequestParam int warehouseNo){
-        ProductItemResponse response = inventoryService.addProduct(productRequest,warehouseNo);
+    public ResponseEntity addProduct(@RequestBody ProductRequest productRequest, @RequestParam int warehouseNo) {
+        ProductItemResponse response = inventoryService.addProduct(productRequest, warehouseNo);
 
         return new ResponseEntity(response, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete-product/{productId}")
-    public ResponseEntity removeProduct(@PathVariable("int productId")int productId){
+    public ResponseEntity removeProduct(@PathVariable("int productId") int productId) {
 
         try {
             String response = inventoryService.removeProduct(productId);
-            return new ResponseEntity(response,HttpStatus.ACCEPTED);
-        }catch (Exception e){
-            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(response, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping("/update-quantity/product/{productId}")
-    public ResponseEntity updateProductQuantity(@PathVariable("productId")int productId,@RequestParam int quantity){
+    public ResponseEntity updateProductQuantity(@PathVariable("productId") int productId, @RequestParam int quantity) {
         try {
-            ProductItemResponse response = inventoryService.updateProductQuantity(productId,quantity);
-            return new ResponseEntity(response,HttpStatus.ACCEPTED);
-        }catch (Exception e){
-            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
+            ProductItemResponse response = inventoryService.updateProductQuantity(productId, quantity);
+            return new ResponseEntity(response, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("check/product/stock")
-    public ResponseEntity checkReorder(){
+    public ResponseEntity checkReorder() {
         List<ProductItemResponse> response = inventoryService.checkReorder();
 
-        return new ResponseEntity(response,HttpStatus.OK);
+        return new ResponseEntity(response, HttpStatus.OK);
     }
 
     @PostMapping("/add/warehouse")
-     public ResponseEntity addWarehouse(@RequestBody WarehouseRequest warehouseRequest){
+    public ResponseEntity addWarehouse(@RequestBody WarehouseRequest warehouseRequest) {
 
         WarehouseResponse response = warehouseService.addWarehouse(warehouseRequest);
 
-        return new ResponseEntity(response,HttpStatus.CREATED);
+        return new ResponseEntity(response, HttpStatus.CREATED);
 
     }
 
     @GetMapping("/find/warehouse/{warehouseNo}")
-    public ResponseEntity getWarehouse(@PathVariable("warehouseNo")int warehouseNo){
+    public ResponseEntity getWarehouse(@PathVariable("warehouseNo") int warehouseNo) {
 
         try {
             WarehouseResponse response = warehouseService.getWarehouse(warehouseNo);
-            return new ResponseEntity(response,HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(response, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping("/handle-returns/warehouse/{warehouseNo}")
-    public ResponseEntity handleReturn(@PathVariable("warehouseNo")int warehouseNo, List<ReturnItemRequest> returnItemRequestList)
-    {
+    public ResponseEntity handleReturn(@PathVariable("warehouseNo") int warehouseNo, List<ReturnItemRequest> returnItemRequestList) {
         try {
-            String response = warehouseService.handleReturn(warehouseNo,returnItemRequestList);
-            return new ResponseEntity(response,HttpStatus.ACCEPTED);
-        }catch (Exception e){
-            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
+            String response = warehouseService.handleReturn(warehouseNo, returnItemRequestList);
+            return new ResponseEntity(response, HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }

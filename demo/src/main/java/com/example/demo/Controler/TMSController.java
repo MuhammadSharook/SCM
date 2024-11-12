@@ -3,7 +3,6 @@ package com.example.demo.Controler;
 import com.example.demo.DTO.Request.CarrierRequest;
 import com.example.demo.DTO.Request.ShipmentRequest;
 import com.example.demo.DTO.Response.CarrierResponse;
-import com.example.demo.DTO.Response.RouteResponse;
 import com.example.demo.DTO.Response.ShipmentResponse;
 import com.example.demo.Enum.CarrierStatus;
 import com.example.demo.Model.Carrier;
@@ -15,6 +14,7 @@ import com.example.demo.Service.ShipmentService;
 import com.example.demo.Transformer.CarrierTransformer;
 import com.example.demo.Transformer.RouteTransformer;
 import com.example.demo.Transformer.ShipmentTransformer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +30,7 @@ public class TMSController {
     private final CarrierService carrierService;
     private final RouteService routeService;
 
+    @Autowired
     public TMSController(ShipmentService shipmentService,
                          CarrierService carrierService,
                          RouteService routeService) {
@@ -159,12 +160,12 @@ public class TMSController {
     }
 
     @GetMapping("/calculate-optimal-route")
-    public ResponseEntity calculateOptimalRoute(ShipmentRequest shipmentRequest){
+    public ResponseEntity calculateOptimalRoute(ShipmentRequest shipmentRequest) {
 
         Shipment shipment = ShipmentTransformer.fromShipmentRequestTOShipment(shipmentRequest);
         Route route = routeService.calculateOptimalRoute(shipment);
 
-        return new ResponseEntity(RouteTransformer.fromRouteTORouteResponse(route),HttpStatus.OK);
+        return new ResponseEntity(RouteTransformer.fromRouteTORouteResponse(route), HttpStatus.OK);
     }
 
 }

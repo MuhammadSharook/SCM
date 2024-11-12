@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class WarehouseServiceImpl implements WarehouseService {
@@ -48,7 +47,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 
         Warehouse warehouse = warehouseRepository.findByWarehouseNo(warehouseNo);
 
-        if(warehouse == null){
+        if (warehouse == null) {
             throw new WarehouseUnavailable("Warehouse unavailable.");
         }
 
@@ -59,12 +58,12 @@ public class WarehouseServiceImpl implements WarehouseService {
     public String handleReturn(int warehouseNo, List<ReturnItemRequest> returnItemRequestList) {
         Warehouse warehouse = warehouseRepository.findByWarehouseNo(warehouseNo);
 
-        if(warehouse == null){
+        if (warehouse == null) {
             throw new WarehouseUnavailable("Warehouse not found.");
         }
 
         List<ReturnItems> returnItems = new ArrayList<>();
-        for(ReturnItemRequest returnItemRequest : returnItemRequestList){
+        for (ReturnItemRequest returnItemRequest : returnItemRequestList) {
             returnItems.add(ReturnTransformer.fromReturnItemRequestToReturnItem(returnItemRequest));
         }
 
@@ -78,13 +77,12 @@ public class WarehouseServiceImpl implements WarehouseService {
         warehouse.getReturnHistory().add(newReturn);
 
 
-        for(ReturnItems R : returnItems){
+        for (ReturnItems R : returnItems) {
 
-            if(warehouse.getInventory().contains(R.getProductId())){
+            if (warehouse.getInventory().contains(R.getProductId())) {
                 ProductItem product = warehouse.getInventory().get(R.getProductId());
                 product.setQuantity(product.getQuantity() + R.getQuantity());
-            }
-            else {
+            } else {
                 ProductItem newProduct = ProductItem.builder()
                         .productName("Unknown")
                         .price(0.0)

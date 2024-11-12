@@ -5,7 +5,7 @@ import com.example.demo.Model.Route;
 
 public class RouteTransformer {
 
-    public static RouteResponse fromRouteTORouteResponse(Route route){
+    public static RouteResponse fromRouteTORouteResponse(Route route) {
         return RouteResponse.builder()
                 .totalDistance(route.getTotalDistance())
                 .cost(route.getCost())

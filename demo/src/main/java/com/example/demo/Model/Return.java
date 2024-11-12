@@ -26,6 +26,6 @@ public class Return {
     @JoinColumn
     Warehouse warehouse;
 
-    @OneToMany(mappedBy = "re_turn",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "re_turn", cascade = CascadeType.ALL)
     List<ReturnItems> returnItems;
 }

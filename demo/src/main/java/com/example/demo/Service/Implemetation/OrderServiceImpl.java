@@ -4,13 +4,13 @@ import com.example.demo.DTO.Response.OrderEntityResponse;
 import com.example.demo.Enum.OrderStatus;
 import com.example.demo.Exception.CustomerNotFoundException;
 import com.example.demo.Exception.EmptyCartException;
+import com.example.demo.Exception.InsufficientStockException;
 import com.example.demo.Exception.OrderNotFoundException;
-import com.example.demo.Model.Cart;
-import com.example.demo.Model.Customer;
-import com.example.demo.Model.OrderEntity;
-import com.example.demo.Model.ProductItem;
+import com.example.demo.Model.*;
 import com.example.demo.Repository.CustomerRepository;
+import com.example.demo.Repository.InventoryRepository;
 import com.example.demo.Repository.OrderEntityRepository;
+import com.example.demo.Repository.WarehouseRepository;
 import com.example.demo.Service.OrderService;
 import com.example.demo.Transformer.OrderEntityTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +24,18 @@ public class OrderServiceImpl implements OrderService {
 
     private final CustomerRepository customerRepository;
     private final OrderEntityRepository orderEntityRepository;
+    private final WarehouseRepository warehouseRepository;
+    private final InventoryRepository inventoryRepository;
 
     @Autowired
     public OrderServiceImpl(CustomerRepository customerRepository,
-                            OrderEntityRepository orderEntityRepository) {
+                            OrderEntityRepository orderEntityRepository,
+                            WarehouseRepository warehouseRepository,
+                            InventoryRepository inventoryRepository) {
         this.customerRepository = customerRepository;
         this.orderEntityRepository = orderEntityRepository;
+        this.warehouseRepository = warehouseRepository;
+        this.inventoryRepository = inventoryRepository;
     }
 
     @Override
@@ -43,6 +49,17 @@ public class OrderServiceImpl implements OrderService {
         Cart cart = customer.getCart();
         if (cart.getProductItems().size() == 0) {
             throw new EmptyCartException("Sorry! Your cart is empty.");
+        }
+
+        for (ProductItem productItem : cart.getProductItems()) {
+            Warehouse warehouse = warehouseRepository.findByWarehouseNo(productItem.getWarehouse().getWarehouseNo());
+            for (ProductItem p : warehouse.getInventory()) {
+                if (productItem.getQuantity() >= p.getQuantity()) {
+                    throw new InsufficientStockException("Insufficient ProductItems.");
+                } else {
+                    p.setQuantity(p.getQuantity() - productItem.getQuantity());
+                }
+            }
         }
 
         OrderEntity order = OrderEntityTransformer.prepareOrderEntity(cart);

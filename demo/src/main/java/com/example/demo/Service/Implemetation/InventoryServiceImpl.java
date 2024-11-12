@@ -30,7 +30,7 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public ProductItemResponse addProduct(ProductRequest productRequest,int warehouseNo) {
+    public ProductItemResponse addProduct(ProductRequest productRequest, int warehouseNo) {
         ProductItem productItem = ProductItemTransformer.fromProductRequestTOProductItem(productRequest);
 
         Warehouse warehouse = warehouseRepository.findByWarehouseNo(warehouseNo);
@@ -46,7 +46,7 @@ public class InventoryServiceImpl implements InventoryService {
     public String removeProduct(int productId) {
         Optional<ProductItem> optionalProductItem = inventoryRepository.findById(productId);
 
-        if(optionalProductItem.isEmpty()){
+        if (optionalProductItem.isEmpty()) {
             throw new ProductUnavailableException("Product unavailable.");
         }
 
@@ -62,10 +62,10 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-    public ProductItemResponse updateProductQuantity(int productId,int quantity) {
+    public ProductItemResponse updateProductQuantity(int productId, int quantity) {
         Optional<ProductItem> optionalProductItem = inventoryRepository.findById(productId);
 
-        if(optionalProductItem.isEmpty()){
+        if (optionalProductItem.isEmpty()) {
             throw new ProductUnavailableException("Product unavailable.");
         }
 
@@ -73,8 +73,8 @@ public class InventoryServiceImpl implements InventoryService {
 
         Warehouse warehouse = warehouseRepository.findByWarehouseNo(productItem.getWarehouse().getWarehouseNo());
 
-        for(ProductItem p : warehouse.getInventory()){
-            if(p.equals(productItem)){
+        for (ProductItem p : warehouse.getInventory()) {
+            if (p.equals(productItem)) {
                 p.setQuantity(quantity);
             }
         }
@@ -95,8 +95,8 @@ public class InventoryServiceImpl implements InventoryService {
 
         List<ProductItem> productLists = new ArrayList<>();
 
-        for (ProductItem productItem : inventoryRepository.findAll()){
-            if(productItem.getQuantity() <= productItem.getReorderPoint()){
+        for (ProductItem productItem : inventoryRepository.findAll()) {
+            if (productItem.getQuantity() <= productItem.getReorderPoint()) {
                 productLists.add(productItem);
             }
         }

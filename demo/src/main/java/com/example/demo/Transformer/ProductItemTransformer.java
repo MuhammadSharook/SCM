@@ -28,10 +28,10 @@ public class ProductItemTransformer {
                 .build();
     }
 
-    public static List<ProductItemResponse> fromListProductItemTOListProductItemResponse(List<ProductItem> productItemList){
+    public static List<ProductItemResponse> fromListProductItemTOListProductItemResponse(List<ProductItem> productItemList) {
         List<ProductItemResponse> responseList = new ArrayList<>();
 
-        for(ProductItem productItem : productItemList){
+        for (ProductItem productItem : productItemList) {
             responseList.add(fromProductItemTOProductItemResponse(productItem));
         }
 

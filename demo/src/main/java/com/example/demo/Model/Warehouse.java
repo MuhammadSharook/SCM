@@ -5,7 +5,6 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.HashMap;
 import java.util.List;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -26,13 +25,13 @@ public class Warehouse {
 
     String warehouseName;
 
-    @OneToMany(mappedBy = "warehouse",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL)
     List<ProductItem> inventory;
 
     @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL)
     List<OrderEntity> orderHistory;
 
-    @OneToMany(mappedBy = "warehouse",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL)
     List<Return> returnHistory;
 
 }
