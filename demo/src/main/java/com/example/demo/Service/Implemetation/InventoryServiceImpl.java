@@ -4,11 +4,12 @@ import com.example.demo.DTO.Request.ProductRequest;
 import com.example.demo.DTO.Response.ProductItemResponse;
 import com.example.demo.Exception.ProductUnavailableException;
 import com.example.demo.Model.ProductItem;
+import com.example.demo.Model.Warehouse;
 import com.example.demo.Repository.InventoryRepository;
+import com.example.demo.Repository.WarehouseRepository;
 import com.example.demo.Service.InventoryService;
 import com.example.demo.Transformer.ProductItemTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,15 +20,22 @@ import java.util.Optional;
 public class InventoryServiceImpl implements InventoryService {
 
     private final InventoryRepository inventoryRepository;
+    private final WarehouseRepository warehouseRepository;
 
     @Autowired
-    public InventoryServiceImpl(InventoryRepository inventoryRepository) {
+    public InventoryServiceImpl(InventoryRepository inventoryRepository,
+                                WarehouseRepository warehouseRepository) {
         this.inventoryRepository = inventoryRepository;
+        this.warehouseRepository = warehouseRepository;
     }
 
     @Override
-    public ProductItemResponse addProduct(ProductRequest productRequest) {
+    public ProductItemResponse addProduct(ProductRequest productRequest,int warehouseNo) {
         ProductItem productItem = ProductItemTransformer.fromProductRequestTOProductItem(productRequest);
+
+        Warehouse warehouse = warehouseRepository.findByWarehouseNo(warehouseNo);
+        warehouse.getInventory().add(productItem);
+        warehouseRepository.save(warehouse);
 
         ProductItem savedProductItem = inventoryRepository.save(productItem);
 
@@ -44,6 +52,10 @@ public class InventoryServiceImpl implements InventoryService {
 
         ProductItem productItem = optionalProductItem.get();
 
+        Warehouse warehouse = warehouseRepository.findByWarehouseNo(productItem.getWarehouse().getWarehouseNo());
+        warehouse.getInventory().remove(productItem);
+
+        warehouseRepository.save(warehouse);
         inventoryRepository.delete(productItem);
 
         return "Successfully deleted.";
@@ -59,7 +71,18 @@ public class InventoryServiceImpl implements InventoryService {
 
         ProductItem productItem = optionalProductItem.get();
 
+        Warehouse warehouse = warehouseRepository.findByWarehouseNo(productItem.getWarehouse().getWarehouseNo());
+
+        for(ProductItem p : warehouse.getInventory()){
+            if(p.equals(productItem)){
+                p.setQuantity(quantity);
+            }
+        }
+
         productItem.setQuantity(quantity);
+
+        warehouseRepository.save(warehouse);
+
 
         ProductItem savedProduct = inventoryRepository.save(productItem);
 

@@ -6,7 +6,7 @@ import com.example.demo.DTO.Response.ProductItemResponse;
 import java.util.List;
 
 public interface InventoryService {
-    ProductItemResponse addProduct(ProductRequest productRequest);
+    ProductItemResponse addProduct(ProductRequest productRequest,int warehouseNo);
 
     String removeProduct(int productId);
 

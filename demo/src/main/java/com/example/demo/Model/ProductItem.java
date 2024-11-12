@@ -38,4 +38,8 @@ public class ProductItem {
     @ManyToOne
     @JoinColumn
     OrderEntity order;
+
+    @ManyToOne
+    @JoinColumn
+    Warehouse warehouse;
 }

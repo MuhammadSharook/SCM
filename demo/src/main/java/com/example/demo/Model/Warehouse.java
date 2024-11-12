@@ -26,7 +26,8 @@ public class Warehouse {
 
     String warehouseName;
 
-    HashMap<String, ProductItem> inventory;
+    @OneToMany(mappedBy = "warehouse",cascade = CascadeType.ALL)
+    List<ProductItem> inventory;
 
     @OneToMany(mappedBy = "warehouse", cascade = CascadeType.ALL)
     List<OrderEntity> orderHistory;
