@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/order")
-public class OrderController {
+@RequestMapping("/api/oms")
+public class OMSController {
 
 
     private final OrderService orderService;
 
     @Autowired
-    public OrderController(OrderService orderService) {
+    public OMSController(OrderService orderService) {
         this.orderService = orderService;
     }
 

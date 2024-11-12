@@ -40,5 +40,7 @@ public class OrderEntity {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     List<ProductItem> productItems = new ArrayList<>();
 
-
+    @ManyToOne
+    @JoinColumn
+    Warehouse warehouse;
 }

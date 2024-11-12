@@ -131,8 +131,9 @@ public class RouteServiceImpl implements RouteService {
 
     }
 
+
     // Haversine formula to calculate distance between two points on a sphere
-    private double calculateDistance(Location origin, Location destination) {
+    public double calculateDistance(Location origin, Location destination) {
         final int EARTH_RADIUS = 6371; // Radius of the Earth in kilometers
 
         double lat1 = Math.toRadians(origin.getLatitude());

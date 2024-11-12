@@ -1,6 +1,5 @@
 package com.example.demo.Model;
 
-import com.example.demo.Enum.Category;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -11,8 +10,8 @@ import lombok.experimental.FieldDefaults;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "product_item")
-public class ProductItem {
+@Table(name = "return_items")
+public class ReturnItems {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,22 +19,9 @@ public class ProductItem {
 
     int quantity;
 
-    double price;
-
-    String productName;
-
-    String discription;
-
-    int reorderPoint;
-
-    @Enumerated(value = EnumType.STRING)
-    Category category;
+    int productId;
 
     @ManyToOne
     @JoinColumn
-    Cart cart;
-
-    @ManyToOne
-    @JoinColumn
-    OrderEntity order;
+    Return re_turn;
 }

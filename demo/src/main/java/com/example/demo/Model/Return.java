@@ -1,9 +1,11 @@
 package com.example.demo.Model;
 
-import com.example.demo.Enum.Category;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
@@ -11,31 +13,19 @@ import lombok.experimental.FieldDefaults;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "product_item")
-public class ProductItem {
+@Table(name = "return")
+public class Return {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
-    int quantity;
-
-    double price;
-
-    String productName;
-
-    String discription;
-
-    int reorderPoint;
-
-    @Enumerated(value = EnumType.STRING)
-    Category category;
+    LocalDateTime returnDate;
 
     @ManyToOne
     @JoinColumn
-    Cart cart;
+    Warehouse warehouse;
 
-    @ManyToOne
-    @JoinColumn
-    OrderEntity order;
+    @OneToMany(mappedBy = "re_turn",cascade = CascadeType.ALL)
+    List<ReturnItems> returnItems;
 }

@@ -8,6 +8,7 @@ import com.example.demo.Model.ProductItem;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,7 +28,7 @@ public class OrderEntityTransformer {
             ProductItemResponse productItemResponse = ProductItemResponse.builder()
                     .productName(productItem.getProductName())
                     .price(productItem.getPrice())
-                    .requiredQuantity(productItem.getRequiredQuantity())
+                    .requiredQuantity(productItem.getQuantity())
                     .discription(productItem.getDiscription())
                     .build();
         }
