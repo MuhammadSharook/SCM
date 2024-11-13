@@ -69,4 +69,7 @@ public class Shipment {
 
     @Enumerated(value = EnumType.STRING)
     UrgencyLevel urgencyLevel;
+
+    @OneToOne(mappedBy = "shipment", cascade = CascadeType.ALL)
+    OrderEntity order;
 }

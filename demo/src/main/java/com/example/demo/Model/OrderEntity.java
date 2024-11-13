@@ -43,4 +43,8 @@ public class OrderEntity {
     @ManyToOne
     @JoinColumn
     Warehouse warehouse;
+
+    @OneToOne
+    @JoinColumn
+    Shipment shipment;
 }

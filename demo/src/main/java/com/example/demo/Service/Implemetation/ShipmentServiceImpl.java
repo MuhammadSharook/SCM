@@ -14,7 +14,10 @@ import com.example.demo.Service.LocationService;
 import com.example.demo.Service.ShipmentService;
 import com.example.demo.Transformer.CarrierTransformer;
 import com.example.demo.Transformer.ShipmentTransformer;
+import com.example.demo.Utils.MailComposer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -28,6 +31,9 @@ public class ShipmentServiceImpl implements ShipmentService {
     private final CarrierService carrierService;
     private final RouteServiceImpl routeService;
     private final LocationService locationService;
+
+    @Autowired
+    JavaMailSender javaMailSender;
 
     @Autowired
     public ShipmentServiceImpl(ShipmentRepository shipmentRepository,
@@ -63,6 +69,8 @@ public class ShipmentServiceImpl implements ShipmentService {
         Shipment savedShipment = shipmentRepository.save(shipment);
 
         // 9. Send Shipment Confirmation Email
+        SimpleMailMessage message = MailComposer.sendShipmentUpdateEmail(savedShipment);
+        javaMailSender.send(message);
 
         // 10. Update Carrier Availability
         carrierService.updateCarrierStatus(carrier, CarrierStatus.BUSY);
@@ -116,6 +124,9 @@ public class ShipmentServiceImpl implements ShipmentService {
     @Override
     public String deleteShipment(int trackingId) {
         Shipment shipment = shipmentRepository.findById(trackingId).get();
+
+        SimpleMailMessage message = MailComposer.sendOrderCancellationEmail(shipment.getOrder());
+        javaMailSender.send(message);
 
         shipmentRepository.delete(shipment);
 

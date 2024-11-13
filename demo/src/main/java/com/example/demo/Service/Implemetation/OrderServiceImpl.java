@@ -13,7 +13,10 @@ import com.example.demo.Repository.OrderEntityRepository;
 import com.example.demo.Repository.WarehouseRepository;
 import com.example.demo.Service.OrderService;
 import com.example.demo.Transformer.OrderEntityTransformer;
+import com.example.demo.Utils.MailComposer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,6 +29,9 @@ public class OrderServiceImpl implements OrderService {
     private final OrderEntityRepository orderEntityRepository;
     private final WarehouseRepository warehouseRepository;
     private final InventoryRepository inventoryRepository;
+
+    @Autowired
+    JavaMailSender javaMailSender;
 
     @Autowired
     public OrderServiceImpl(CustomerRepository customerRepository,
@@ -64,11 +70,12 @@ public class OrderServiceImpl implements OrderService {
 
         OrderEntity order = OrderEntityTransformer.prepareOrderEntity(cart);
 
-        OrderEntity savedOrder = orderEntityRepository.save(order);
 
         order.setCustomer(customer);
         order.setProductItems(cart.getProductItems());
         order.setOrderStatus(OrderStatus.ORDER_PLACED);
+
+        OrderEntity savedOrder = orderEntityRepository.save(order);
 
         customer.getOrders().add(savedOrder);
 
@@ -81,7 +88,11 @@ public class OrderServiceImpl implements OrderService {
 
         customerRepository.save(customer);
 
+        SimpleMailMessage message = MailComposer.sendOrderConfirmationMail(savedOrder);
+        javaMailSender.send(message);
+
         return OrderEntityTransformer.fromOrderEntityTOOrderEntityResponse(savedOrder);
+
     }
 
     @Override
@@ -110,6 +121,9 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderStatus(status);
 
         OrderEntity savedOrder = orderEntityRepository.save(order);
+
+        SimpleMailMessage message = MailComposer.sendOrderStatusUpdateEmail(savedOrder);
+        javaMailSender.send(message);
 
         return OrderEntityTransformer.fromOrderEntityTOOrderEntityResponse(savedOrder);
     }

@@ -4,7 +4,7 @@ public enum ShipmentStatus {
 
     STARTED,
     WAITING,
-    STATUS_FAILED,
+    PROCESSING,
     CANCELED,
     COMPLETED
 }
